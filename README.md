@@ -4,60 +4,77 @@
 ![Status](https://img.shields.io/badge/Status-Backtesting_Complete-success)
 ![Data](https://img.shields.io/badge/Data-FiinQuantX-orange)
 
-## 📖 Giới thiệu (Overview)
+## 📖 Overview
 
-Dự án này xây dựng một hệ thống giao dịch thuật toán (Algorithmic Trading System) toàn diện cho thị trường chứng khoán Việt Nam (HOSE, HNX, UPCOM). [cite_start]Hệ thống kết hợp phân tích cơ bản, phân tích kỹ thuật và các mô hình Học máy (Machine Learning/Deep Learning) để tối ưu hóa điểm mua/bán và quản trị rủi ro[cite: 14, 15].
+This project aims to develop a comprehensive algorithmic trading system for the stock market in VietNam including (HOSE, HNX, UPCOM). Our system includes intergrating crawling data, cleaning data, exploratory data analysis, feature engineering and Machine Learning and Deep Learning model to find the optimized time to buy/sell stock, manage the risk, apply the bot to backtest in the real market and allow it to send messages to telegram to users to notify the signal.
 
-[cite_start]Mục tiêu chính là xây dựng một pipeline tự động từ khâu thu thập dữ liệu, làm sạch, trích xuất đặc trưng (Feature Engineering) đến backtest chiến lược trong điều kiện thị trường biến động[cite: 27, 28].
+## 📊 Key Results
 
-## 📊 Kết quả Nổi bật (Key Results)
-
-[cite_start]Dựa trên dữ liệu backtest năm 2025, chiến lược đã đạt được hiệu suất vượt trội so với thị trường chung, chứng minh khả năng bảo toàn vốn xuất sắc[cite: 816, 824].
+Based on backtesting data from 2025, the strategy significantly demonstrate exceptional capital preservation capabilities and ability to make good decisions.
 
 | Metric | Value |
 | :--- | :--- |
-| **Tổng lợi nhuận (Total Return)** | **+29.35%** |
-| **Tỷ lệ chiến thắng (Win Rate)** | **76.92%** |
-| **Mức sụt giảm tối đa (Max Drawdown)** | **-4.06%** |
-| **Tổng số giao dịch** | 52 |
+| **Total Return** | **+29.35%** |
+| **Win Rate** | **76.92%** |
 
-> [cite_start]*Dữ liệu backtest: 04/01/2022 - 12/09/2025 (Tập trung logic vào 2025)*[cite: 14, 51].
+| **Max Drawdown** | **-4.06%** |
+| **Total Trades** | 52 |
 
-## 🛠️ Phương pháp Tiếp cận (Methodology)
+<img width="1242" height="626" alt="backtest2025" src="https://github.com/user-attachments/assets/fdb30d85-afce-4460-9435-40ab5dbca288" />
 
-[cite_start]Chiến lược sử dụng mô hình lọc 4 lớp (4-Layer Filtering Strategy) để loại bỏ nhiễu và chọn lọc cổ phiếu tiềm năng nhất[cite: 613].
+> *Backtest Data: Jan 04, 2022 - Sep 12, 2025.
 
-### 1. Lọc Tài chính (Fundamental Filter)
-[cite_start]Loại bỏ các cổ phiếu có sức khỏe tài chính kém dựa trên các chỉ số cơ bản[cite: 617]:
-* **Tiêu chí:** $EBIT Margin$, $ROA$, $ROE$, $ROIC$.
-* [cite_start]**Ngưỡng lọc:** Sử dụng phương pháp phân vị (quantile) tùy chỉnh theo từng sàn (HOSE, HNX, UPCOM) để đảm bảo tính phù hợp với đặc thù thanh khoản và quy mô[cite: 624, 626].
+## 🛠️ Methodology
 
-### 2. Lọc Kỹ thuật (Technical Filter)
-[cite_start]Sử dụng Feature Engineering để xác định xu hướng và động lượng[cite: 635]:
-* [cite_start]**RSI:** Điều chỉnh ngưỡng quá mua/quá bán linh hoạt (ví dụ: HNX dùng 25-75, UPCOM dùng 20-80)[cite: 640, 641].
-* [cite_start]**MACD:** Loại bỏ nhiễu bằng phương pháp độ lệch chuẩn (std) và phân vị[cite: 644].
-* [cite_start]**Bollinger Bands:** Sử dụng Bandwidth để đánh giá độ biến động[cite: 651].
+The strategy employs a **4-Layer Filtering Strategy** to eliminate noise and select the highest-potential stocks.
 
-### 3. Phân loại Rủi ro (Risk Classifier - Machine Learning)
-[cite_start]Sử dụng mô hình **LightGBM Classifier** để dự báo rủi ro sụt giảm (drawdown) trong tương lai[cite: 657].
-* [cite_start]**Mục tiêu:** Loại bỏ các mã có khả năng drawdown cao (tệ hơn phân vị 25% của thị trường)[cite: 658].
-* [cite_start]**Performance:** Độ chính xác (Accuracy) trên cả 3 sàn đều đạt > 70%[cite: 695].
+> **Note:** The input data was crawled and thoroughly cleaned, and the specific filtering thresholds utilized below were empirically derived through the **Exploratory Data Analysis (EDA)** process.
 
-### 4. Phân loại Tín hiệu (Signal Classifier - Deep Learning)
-[cite_start]Sử dụng mô hình **LSTM (Long Short-Term Memory)** để nắm bắt các phụ thuộc chuỗi thời gian (temporal dependencies)[cite: 704].
-* [cite_start]**Input:** Chuỗi 10 phiên của các chỉ báo kỹ thuật và giá[cite: 711].
-* [cite_start]**Output:** Phân loại tín hiệu Mua/Bán/Giữ[cite: 705].
+### 1. Fundamental Filter
+Filters out stocks with poor financial health based on fundamental indicators:
+* **Criteria:** $EBIT Margin$, $ROA$, $ROE$, $ROIC$.
+* **Thresholds:** Utilizes exchange-specific quantile methods (HOSE, HNX, UPCOM) to ensure alignment with the specific liquidity and scale characteristics of each market.
 
-## 📉 Khám phá Dữ liệu (EDA Highlights)
+### 2. Technical Filter
+Uses Feature Engineering to identify trends and momentum:
+* **RSI:** Flexibly adjusts overbought/oversold thresholds (e.g., HNX uses 25-75, UPCOM uses 20-80).
+* **MACD:** Eliminates noise using standard deviation (std) and quantile methods.
+* **Bollinger Bands:** Uses Bandwidth to assess volatility.
 
-[cite_start]Dự án thực hiện EDA sâu rộng trên 3 sàn để hiểu rõ hành vi thị trường[cite: 87, 88]:
-* [cite_start]**HOSE:** Biến động thấp nhất, phù hợp đầu tư ổn định[cite: 103].
-* [cite_start]**UPCOM:** Biến động và rủi ro cao nhất, mang tính mùa vụ mạnh[cite: 104, 119].
-* [cite_start]**HNX:** Trung hòa giữa rủi ro và cơ hội[cite: 111].
+### 3. Risk Classifier (Machine Learning)
+Deploys a **LightGBM Classifier** model to forecast future drawdown risks.
+* **Objective:** Exclude stocks with high potential for drawdown (worse than the market's 25th percentile).
+* **Performance:** Accuracy across all 3 exchanges achieved > 70%.
 
-## ⚙️ Cài đặt & Sử dụng (Installation)
+### 4. Signal Classifier (Deep Learning)
+Deploys an **LSTM (Long Short-Term Memory)** model to capture temporal dependencies.
+* **Input:** A sequence of 10 sessions comprising technical indicators and price data.
+* **Output:** Classification of Buy/Sell/Hold signals.
+
+## 🤖 Real-time Automation & Alerts
+
+To bridge the gap between backtesting and live trading, the system integrates a **Real-time Notification Bot** powered by the **FiinQuant** library and the **Telegram Bot API**.
+
+### Key Features
+* **Instant Alerts:** Sends immediate notifications to a private Telegram group whenever a **BUY** or **SELL** signal is triggered.
+* **Comprehensive Trade Details:** Each alert provides actionable data for quick execution:
+    * **Signal Type:** 📈 BUY / 📉 SELL
+    * **Execution Info:** Ticker (Mã), Price (Giá), Volume (Số lượng).
+    * **Rationale:** Explains the trigger reason (e.g., *Trailing Stop*, *Entry Signal*).
+    * **Portfolio Health:** Updates on Expected Risk, Total Capital, and Remaining Cash.
+
+<img width="927" height="618" alt="Bot" src="https://github.com/user-attachments/assets/bdb05e6a-4a51-4004-baaa-7e2b27cac791" />
+
+## 📉 EDA Highlights
+
+
+The project conducted extensive EDA on 3 exchanges to thoroughly understand market behavior:
+* **HOSE:** Lowest volatility, suitable for stable investment strategies.
+* **UPCOM:** Highest volatility and risk, exhibiting strong seasonality.
+* **HNX:** Balanced profile between risk and opportunity.
+
+## ⚙️ Installation
 
 1. **Clone repository:**
-   ```bash
-   git clone [https://github.com/username/repo-name.git](https://github.com/username/repo-name.git)
-   cd repo-name
+   git clone [https://github.com/phamducuong05/StockBot.git](https://github.com/phamducuong05/StockBot.git)
+   
